@@ -1,0 +1,732 @@
+/* 기본 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #dc2626;
+    --primary-dark: #b91c1c;
+    --secondary: #1e3a8a;
+    --dark: #111827;
+    --gray: #6b7280;
+    --light-gray: #f3f4f6;
+    --white: #ffffff;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 헤더 */
+.header {
+    background: var(--white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    font-size: 2rem;
+}
+
+.logo-main {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--secondary);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+.nav-phones a {
+    background: var(--primary);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.mobile-menu-btn span {
+    width: 25px;
+    height: 3px;
+    background: var(--dark);
+}
+
+/* 히어로 */
+.hero {
+    background: linear-gradient(135deg, var(--secondary) 0%, #1e40af 100%);
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="60" font-size="60" opacity="0.05">🚛</text></svg>');
+    background-size: 150px;
+}
+
+.hero-content {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    padding: 60px 20px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    color: var(--white);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.hero-highlight {
+    font-size: 1.8rem;
+    color: #fbbf24;
+    font-weight: 900;
+    margin-bottom: 24px;
+}
+
+.hero-vehicles {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.hero-vehicles span {
+    background: rgba(255,255,255,0.2);
+    color: var(--white);
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.hero-contact {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-call {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.15);
+    padding: 16px 28px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.btn-call:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-3px);
+}
+
+.btn-call.main {
+    background: var(--primary);
+}
+
+.call-icon {
+    font-size: 2rem;
+}
+
+.call-info {
+    text-align: left;
+}
+
+.call-label {
+    display: block;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.8);
+}
+
+.call-number {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--white);
+}
+
+/* 특징 */
+.highlights {
+    padding: 50px 0;
+    background: var(--light-gray);
+}
+
+.highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.highlight-item {
+    background: var(--white);
+    padding: 30px 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.highlight-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+}
+
+.highlight-item h3 {
+    font-size: 1.1rem;
+    color: var(--secondary);
+    margin-bottom: 8px;
+}
+
+.highlight-item p {
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+/* 섹션 제목 */
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+    font-size: 2rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.section-title.light h2 {
+    color: var(--white);
+}
+
+.section-title p {
+    color: var(--gray);
+}
+
+.section-title.light p {
+    color: rgba(255,255,255,0.8);
+}
+
+/* 서비스 */
+.services {
+    padding: 80px 0;
+}
+
+.services-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.service-box {
+    background: var(--light-gray);
+    padding: 32px 24px;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.service-box:hover {
+    background: var(--secondary);
+    transform: translateY(-5px);
+}
+
+.service-box:hover h3,
+.service-box:hover p {
+    color: var(--white);
+}
+
+.service-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.service-box h3 {
+    font-size: 1.2rem;
+    color: var(--secondary);
+    margin-bottom: 12px;
+}
+
+.service-box p {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.6;
+}
+
+/* 차량 */
+.vehicles {
+    padding: 80px 0;
+    background: var(--secondary);
+}
+
+.ton-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.ton-item {
+    background: rgba(255,255,255,0.1);
+    padding: 24px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.ton-item:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+}
+
+.ton-number {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #fbbf24;
+    margin-bottom: 4px;
+}
+
+.ton-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.8);
+}
+
+.vehicles-cta {
+    text-align: center;
+}
+
+.vehicles-cta p {
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 16px;
+}
+
+.btn-white {
+    display: inline-block;
+    background: var(--white);
+    color: var(--secondary);
+    padding: 14px 32px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s;
+}
+
+.btn-white:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* 전화 CTA */
+.call-cta {
+    padding: 60px 0;
+    background: var(--primary);
+    text-align: center;
+}
+
+.call-cta h2 {
+    font-size: 1.8rem;
+    color: var(--white);
+    margin-bottom: 30px;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cta-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 32px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.cta-btn.primary {
+    background: var(--white);
+}
+
+.cta-btn.secondary {
+    background: rgba(255,255,255,0.2);
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px);
+}
+
+.cta-icon {
+    font-size: 2rem;
+}
+
+.cta-text {
+    text-align: left;
+}
+
+.cta-text small {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.cta-btn.secondary .cta-text small {
+    color: rgba(255,255,255,0.8);
+}
+
+.cta-text strong {
+    font-size: 1.3rem;
+    color: var(--primary);
+}
+
+.cta-btn.secondary .cta-text strong {
+    color: var(--white);
+}
+
+/* 문의 */
+.contact {
+    padding: 80px 0;
+    background: var(--light-gray);
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+}
+
+.contact-phones {
+    background: var(--secondary);
+    padding: 40px 30px;
+    border-radius: 16px;
+    color: var(--white);
+}
+
+.contact-phones h3 {
+    font-size: 1.3rem;
+    margin-bottom: 24px;
+}
+
+.phone-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.1);
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.phone-box:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.phone-icon {
+    font-size: 1.8rem;
+}
+
+.phone-info small {
+    display: block;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.phone-info strong {
+    font-size: 1.2rem;
+    color: var(--white);
+}
+
+.phone-notice {
+    margin-top: 24px;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+}
+
+.contact-form {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 16px;
+}
+
+.contact-form h3 {
+    font-size: 1.3rem;
+    color: var(--secondary);
+    margin-bottom: 24px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--secondary);
+}
+
+.btn-submit {
+    width: 100%;
+    background: var(--primary);
+    color: var(--white);
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-submit:hover {
+    background: var(--primary-dark);
+}
+
+/* 푸터 */
+.footer {
+    background: var(--dark);
+    color: var(--white);
+    padding: 50px 0 30px;
+    text-align: center;
+}
+
+.footer-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.footer-main p {
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 8px;
+}
+
+.footer-phones {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 30px 0;
+}
+
+.footer-phones a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.footer-copy {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-copy p {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+}
+
+/* 플로팅 버튼 */
+.float-buttons {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 999;
+}
+
+.float-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    transition: all 0.3s;
+}
+
+.float-btn.call {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.float-btn.mobile {
+    background: var(--secondary);
+    color: var(--white);
+    padding: 14px 18px;
+}
+
+.float-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* 반응형 */
+@media (max-width: 900px) {
+    .highlights-grid,
+    .services-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ton-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links,
+    .nav-phones {
+        display: none;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-highlight {
+        font-size: 1.4rem;
+    }
+
+    .hero-vehicles span {
+        padding: 6px 14px;
+        font-size: 0.9rem;
+    }
+
+    .highlights-grid,
+    .services-content {
+        grid-template-columns: 1fr;
+    }
+
+    .ton-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-phones {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .float-btn.call span {
+        display: none;
+    }
+
+    .float-btn.call {
+        padding: 14px 18px;
+    }
+
+    .section-title h2 {
+        font-size: 1.6rem;
+    }
+}
