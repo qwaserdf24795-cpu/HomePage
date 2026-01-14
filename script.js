@@ -4,29 +4,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
 
-    mobileMenuBtn.addEventListener('click', function() {
-        navLinks.classList.toggle('active');
-        this.classList.toggle('active');
-    });
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+    }
 
     // 네비게이션 링크 클릭 시 모바일 메뉴 닫기
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('active');
-            mobileMenuBtn.classList.remove('active');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.classList.remove('active');
+            }
         });
     });
 
     // 헤더 스크롤 효과
     const header = document.querySelector('.header');
+    let lastScroll = 0;
+
     window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
-            header.style.background = 'rgba(255, 255, 255, 0.98)';
-            header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.15)';
+        const currentScroll = window.scrollY;
+
+        if (currentScroll > 100) {
+            header.classList.add('scrolled');
         } else {
-            header.style.background = 'rgba(255, 255, 255, 0.95)';
-            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            header.classList.remove('scrolled');
         }
+
+        lastScroll = currentScroll;
     });
 
     // 숫자 카운터 애니메이션
@@ -37,20 +45,26 @@ document.addEventListener('DOMContentLoaded', function() {
         statNumbers.forEach(stat => {
             const target = parseInt(stat.getAttribute('data-target'));
             const duration = 2000;
-            const increment = target / (duration / 16);
-            let current = 0;
+            const startTime = performance.now();
 
-            const updateNumber = () => {
-                current += increment;
-                if (current < target) {
-                    stat.textContent = Math.floor(current) + '+';
+            const updateNumber = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // easeOutQuart 이징
+                const easeProgress = 1 - Math.pow(1 - progress, 4);
+                const current = Math.floor(easeProgress * target);
+
+                stat.textContent = current;
+
+                if (progress < 1) {
                     requestAnimationFrame(updateNumber);
                 } else {
-                    stat.textContent = target + '+';
+                    stat.textContent = target;
                 }
             };
 
-            updateNumber();
+            requestAnimationFrame(updateNumber);
         });
     }
 
@@ -58,10 +72,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const aboutSection = document.querySelector('.about');
 
     const observerOptions = {
-        threshold: 0.5
+        threshold: 0.3,
+        rootMargin: '0px'
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    const numberObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !animated) {
                 animated = true;
@@ -71,11 +86,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }, observerOptions);
 
     if (aboutSection) {
-        observer.observe(aboutSection);
+        numberObserver.observe(aboutSection);
     }
 
     // 스크롤 애니메이션 (Fade In)
-    const fadeElements = document.querySelectorAll('.service-card, .team-card, .stat-item');
+    const fadeElements = document.querySelectorAll('.business-card, .stat-card, .timeline-item, .info-item');
 
     fadeElements.forEach(el => {
         el.classList.add('fade-in');
@@ -87,7 +102,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 entry.target.classList.add('visible');
             }
         });
-    }, { threshold: 0.1 });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
     fadeElements.forEach(el => {
         fadeObserver.observe(el);
@@ -102,14 +120,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const formData = {
                 name: document.getElementById('name').value,
+                company: document.getElementById('company')?.value || '',
                 email: document.getElementById('email').value,
-                subject: document.getElementById('subject').value,
-                message: document.getElementById('message').value
+                phone: document.getElementById('phone')?.value || '',
+                inquiry: document.getElementById('inquiry').value,
+                message: document.getElementById('message').value,
+                privacy: document.getElementById('privacy').checked
             };
 
             // 폼 유효성 검사
-            if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-                showNotification('모든 필드를 입력해주세요.', 'error');
+            if (!formData.name || !formData.email || !formData.inquiry || !formData.message) {
+                showNotification('필수 항목을 모두 입력해주세요.', 'error');
                 return;
             }
 
@@ -118,8 +139,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            if (!formData.privacy) {
+                showNotification('개인정보 수집 및 이용에 동의해주세요.', 'error');
+                return;
+            }
+
             // 성공 메시지 (실제로는 서버로 전송)
-            showNotification('메시지가 성공적으로 전송되었습니다!', 'success');
+            showNotification('문의가 성공적으로 접수되었습니다. 빠른 시일 내에 답변드리겠습니다.', 'success');
             contactForm.reset();
         });
     }
@@ -141,7 +167,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.innerHTML = `
-            <span>${message}</span>
+            <div class="notification-content">
+                <span class="notification-icon">${type === 'success' ? '&#10003;' : '&#33;'}</span>
+                <span class="notification-message">${message}</span>
+            </div>
             <button class="notification-close">&times;</button>
         `;
 
@@ -150,29 +179,49 @@ document.addEventListener('DOMContentLoaded', function() {
             position: fixed;
             top: 100px;
             right: 20px;
-            padding: 15px 20px;
+            max-width: 400px;
+            padding: 16px 20px;
             border-radius: 8px;
-            background: ${type === 'success' ? '#2ecc71' : '#e74c3c'};
+            background: ${type === 'success' ? '#1a365d' : '#c53030'};
             color: white;
             display: flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            justify-content: space-between;
+            gap: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             z-index: 10000;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.4s ease;
         `;
 
         document.body.appendChild(notification);
 
-        // 닫기 버튼
-        notification.querySelector('.notification-close').addEventListener('click', () => {
-            notification.remove();
+        // 닫기 버튼 스타일
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.style.cssText = `
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        `;
+
+        closeBtn.addEventListener('mouseenter', () => closeBtn.style.opacity = '1');
+        closeBtn.addEventListener('mouseleave', () => closeBtn.style.opacity = '0.7');
+
+        // 닫기 버튼 클릭
+        closeBtn.addEventListener('click', () => {
+            notification.style.animation = 'slideOut 0.3s ease forwards';
+            setTimeout(() => notification.remove(), 300);
         });
 
         // 자동 제거
         setTimeout(() => {
             if (notification.parentNode) {
-                notification.style.animation = 'slideOut 0.3s ease';
+                notification.style.animation = 'slideOut 0.3s ease forwards';
                 setTimeout(() => notification.remove(), 300);
             }
         }, 5000);
@@ -201,14 +250,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 opacity: 0;
             }
         }
-        .notification-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .notification-message {
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
     `;
     document.head.appendChild(style);
@@ -217,7 +277,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const targetId = this.getAttribute('href');
+            const target = document.querySelector(targetId);
+
             if (target) {
                 const headerHeight = document.querySelector('.header').offsetHeight;
                 const targetPosition = target.offsetTop - headerHeight;
@@ -233,9 +295,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 활성 네비게이션 링크 표시
     const sections = document.querySelectorAll('section[id]');
 
-    window.addEventListener('scroll', () => {
-        let current = '';
+    function updateActiveNav() {
         const headerHeight = document.querySelector('.header').offsetHeight;
+        let current = '';
 
         sections.forEach(section => {
             const sectionTop = section.offsetTop - headerHeight - 100;
@@ -252,5 +314,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 link.classList.add('active');
             }
         });
+    }
+
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
+
+    // 파트너 로고 애니메이션 (무한 슬라이드 효과는 제거, hover 효과만 유지)
+    const partnerLogos = document.querySelectorAll('.partner-logo');
+    partnerLogos.forEach((logo, index) => {
+        logo.style.animationDelay = `${index * 0.1}s`;
     });
 });

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start \"\" \"https://github.com/qwaserdf24795-cpu/HomePage/settings/pages\")",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" auth login --hostname github.com --git-protocol https --web)"
+    ]
+  }
+}
